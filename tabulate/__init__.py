@@ -1641,17 +1641,12 @@ def _wrap_text_to_colwidths(list_of_lists, colwidths, numparses=True):
 
             if width is not None:
                 wrapper = _CustomTextWrap(width=width)
-                # Cast based on our internal type handling. Any future custom
-                # formatting of types (such as datetimes) may need to be more
-                # explicit than just `str` of the object. Also doesn't work for
-                # custom floatfmt/intfmt, nor with any missing/blank cells.
-                casted_cell = (
-                    str(cell) if _isnumber(cell) else _type(cell, numparse)(cell)
-                )
+
+                casted_cell = str(cell) 
+
                 wrapped = [
-                    "\n".join(wrapper.wrap(line))
+                    "\n".join(wrapper.wrap(line.strip()))
                     for line in casted_cell.splitlines()
-                    if line.strip() != ""
                 ]
                 new_row.append("\n".join(wrapped))
             else:
